@@ -11,13 +11,13 @@ export default function Login() {
     navigate("/welcome");
   };
   return (
-    <div className="w-full flex flex-col md:flex-row gap-x-20 justify-center md:justify-start px-10 items-center h-screen border">
+    <div className="w-full flex flex-col md:flex-row gap-x-20 justify-center md:justify-start px-2 md:px-10 items-center h-screen border">
       <Lottie
         animationData={readingAnimation}
         loop
         className="hidden md:block h-[90%] w-[40%]"
       />
-      <div className="p-40 rounded-md md:ms-20 border shadow-md px-20 w-full md:w-[40%]">
+      <div className="p-40 rounded-md md:ms-20 border shadow-md px-2 md:px-20 w-full md:w-[40%]">
         <section className="">
           <h2 className="text-4xl text-black font-semibold text-center">
             Log into your account
@@ -59,9 +59,7 @@ export default function Login() {
               </div>
               <Link className="text-sm " to="/register">
                 Don't have an account?{" "}
-                <span className="text-primary hover:underline">
-                  Sign Up now
-                </span>
+                <span className="text-primary hover:underline">Sign Up</span>
               </Link>
             </div>
           </form>

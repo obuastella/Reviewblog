@@ -10,13 +10,13 @@ export default function SignUp() {
     navigate("/welcome");
   };
   return (
-    <div className="w-full flex flex-col md:flex-row gap-x-20 justify-center md:justify-start px-10 items-center h-screen">
+    <div className="w-full flex flex-col md:flex-row gap-x-20 justify-center md:justify-start px-2 md:px-10 items-center h-screen">
       <Lottie
         animationData={peopleAnimation}
         loop
         className=" mt-52 hidden md:block w-[40%]"
       />
-      <div className="py-28 rounded-md md:ms-20 border shadow-md px-20 w-full md:w-[40%]">
+      <div className="py-28 rounded-md md:ms-20 md:border shadow-md px-2 md:px-20 w-full md:w-[40%]">
         <section className="">
           <h2 className="text-4xl text-black font-semibold text-center">
             Create an account
@@ -65,12 +65,12 @@ export default function SignUp() {
             <Button className="p-5 mt-10 w-full bg-black hover:bg-primary">
               Sign Up
             </Button>
-            <div className="text-sm mt-4 px-2 flex justify-between items-center">
+            <div className="sm:text-sm mt-4 px-2 flex justify-between items-center">
               <Link className="text-sm " to="/login">
                 Already have an account?{" "}
                 <span className="text-primary hover:underline">Log in</span>
               </Link>
-              <Link className="hover:underline" to="/forgot-password">
+              <Link className="text-sm hover:underline" to="/forgot-password">
                 forgot password?
               </Link>
             </div>
