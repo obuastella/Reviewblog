@@ -1,2 +1,2 @@
 # Reviewblog
-A book Review Platform
+An Open source book Review Platform
