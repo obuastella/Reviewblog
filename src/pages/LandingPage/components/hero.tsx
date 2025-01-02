@@ -2,7 +2,7 @@ import Typewriter from "@/components/Typewriter";
 import { Link } from "react-router-dom";
 export default function Hero() {
   return (
-    <section className="mt-10 w-full text-vlack py-20 px-6 text-center">
+    <section className="mt-10 w-full py-20 px-6 text-center">
       <div className="max-w-3xl mx-auto">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
           Welcome to <span className="text-yellow-300">ReviewBlog</span>
