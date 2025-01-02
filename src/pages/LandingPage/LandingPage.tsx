@@ -1,9 +1,12 @@
-import { Button } from "@/components/ui/button";
+import Navbar from "./Navbar";
 
 export default function LandingPage() {
   return (
-    <div>
-      LandingPage here <Button>Click me</Button>
-    </div>
+    <>
+      <Navbar></Navbar>
+      <h1 className="text-2xl text-center text-orange-400 my-10">
+        Hello world
+      </h1>
+    </>
   );
 }
