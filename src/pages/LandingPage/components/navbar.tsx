@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -7,9 +7,12 @@ export default function Navbar() {
         <div className="text-2xl font-extrabold text-black">
           ReviewBlog<span className="text-yellow-400">.</span>
         </div>
-        <Button className="bg-yellow-300 text-black font-bold py-5 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition-all">
+        <Link
+          to="/get-started"
+          className="bg-yellow-300 text-black font-bold py-2.5 px-6 rounded-lg shadow-md hover:bg-yellow-400 transition-all"
+        >
           Get Started
-        </Button>
+        </Link>
       </div>
     </nav>
   );
