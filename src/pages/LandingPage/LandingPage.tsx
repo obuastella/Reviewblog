@@ -1,12 +1,15 @@
-import Navbar from "./Navbar";
+import Hero from "./components/Hero";
+import Navbar from "./components/Navbar";
+import Footer from "./components/footer";
+import WhyChooseUs from "./components/whyChooseUs";
 
 export default function LandingPage() {
   return (
     <>
-      <Navbar></Navbar>
-      <h1 className="text-2xl text-center text-orange-400 my-10">
-        Hello world
-      </h1>
+      <Navbar />
+      <Hero />
+      <WhyChooseUs />
+      <Footer />
     </>
   );
 }
