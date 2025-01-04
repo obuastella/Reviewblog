@@ -69,7 +69,7 @@ export function AppSidebar() {
       {/* Log Out Button */}
       <div className="flex p-4 border-t">
         <Link
-          to="/login"
+          to="/"
           className="flex justify-start gap-x-4 items-center text-white font-bold w-fit text-left"
         >
           Log Out
