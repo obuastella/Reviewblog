@@ -10,9 +10,26 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import Disocver from "../Discover/Discover";
+import MyBooks from "../MyBooks/MyBooks";
+import JoinClub from "../JoinClub/JoinClub";
+import ContactUs from "../ContactUs/ContactUs";
 
-export default function Dashboarc() {
+export default function Dashboard() {
+  const location = useLocation();
+  const renderContent = () => {
+    switch (location.pathname) {
+      case "/discover":
+        return <Disocver />;
+      case "/my-books":
+        return <MyBooks />;
+      case "/bookclub":
+        return <JoinClub />;
+      case "/contact-us":
+        return <ContactUs />;
+    }
+  };
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -36,7 +53,7 @@ export default function Dashboarc() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          Hello World
+          {renderContent()}
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
       </SidebarInset>

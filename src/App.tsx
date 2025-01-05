@@ -4,7 +4,6 @@ import Onboarding from "./pages/Onboarding/Onboarding";
 import SignUp from "./pages/Auth/SignUp";
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
-
 export default function App() {
   return (
     <>
@@ -15,6 +14,9 @@ export default function App() {
           <Route path="/register" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/discover" element={<Dashboard />} />
+          <Route path="/my-books" element={<Dashboard />} />
+          <Route path="/bookclub" element={<Dashboard />} />
+          <Route path="/contact-us" element={<Dashboard />} />
         </Routes>
       </Router>
     </>

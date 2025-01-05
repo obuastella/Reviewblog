@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Compass, Users, LogOut, BookOpen } from "lucide-react";
+import { Compass, Users, LogOut, BookOpen, PhoneCall } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function AppSidebar() {
@@ -25,8 +25,13 @@ export function AppSidebar() {
     },
     {
       name: "Join Club",
-      url: "#",
+      url: "/bookclub",
       icon: <Users />,
+    },
+    {
+      name: "Contact Us",
+      url: "/contact-us",
+      icon: <PhoneCall />,
     },
   ];
 
