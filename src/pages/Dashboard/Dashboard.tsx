@@ -23,7 +23,7 @@ export default function Dashboarc() {
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb className="w-full">
               <BreadcrumbList className="w-full">
-                <BreadcrumbItem className="hidden md:flex justify-end w-full">
+                <BreadcrumbItem className="flex justify-end w-full">
                   <Link
                     to="/"
                     className="ml-auto text-right text-black font-semibold text-2xl"

@@ -8,20 +8,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, Compass, Users, LogOut } from "lucide-react";
+import { Compass, Users, LogOut, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function AppSidebar() {
   const projects = [
     {
-      name: "Home",
-      url: "/welcome",
-      icon: <Home />,
-    },
-    {
       name: "Discover",
       url: "/discover",
       icon: <Compass />,
+    },
+    {
+      name: "My Books",
+      url: "/my-books",
+      icon: <BookOpen />,
     },
     {
       name: "Join Club",
