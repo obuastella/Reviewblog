@@ -33,13 +33,13 @@ export default function SignUpForm() {
       navigate("/discover");
     } catch (error) {
       console.log("Error submitting the form:", error);
+    } finally {
+      setIsLoading(false); // Reset loading state
       setTimeout(() => {
         setFullName("");
         setEmail("");
         setPassword("");
       }, 2000);
-    } finally {
-      setIsLoading(false); // Reset loading state
     }
   };
   return (
