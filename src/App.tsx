@@ -4,6 +4,7 @@ import Onboarding from "./pages/Onboarding/Onboarding";
 import SignUp from "./pages/Auth/SignUp";
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Otp from "./pages/Otp/Otp";
 export default function App() {
   return (
     <>
@@ -12,6 +13,7 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/get-started" element={<Onboarding />} />
           <Route path="/register" element={<SignUp />} />
+          <Route path="/otp" element={<Otp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/discover" element={<Dashboard />} />
           <Route path="/my-books" element={<Dashboard />} />
