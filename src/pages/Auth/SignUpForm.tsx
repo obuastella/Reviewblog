@@ -30,7 +30,7 @@ export default function SignUpForm() {
       // Simulate an API request with a timeout
       await new Promise((resolve) => setTimeout(resolve, 2000));
       // Navigate to the /discover page upon success
-      navigate("/discover");
+      navigate("/verify");
     } catch (error) {
       console.log("Error submitting the form:", error);
     } finally {
