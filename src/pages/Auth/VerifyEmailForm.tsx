@@ -1,74 +1,100 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { validatePassword } from "./ValidatePassword";
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
 
 export default function VerifyEmailForm() {
   const navigate = useNavigate();
-  const [fullName, setFullName] = useState<string>();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [otp, setOtp] = useState(Array(6).fill(""));
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleInputChange = (index: number, value: string) => {
+    if (!/^\d?$/.test(value)) return; // Allow only digits
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+
+    // Automatically move focus to the next input if not empty
+    if (value && index < otp.length - 1) {
+      const nextInput = document.getElementById(`otp-slot-${index + 1}`);
+      nextInput?.focus();
+    }
+  };
+
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Backspace") {
+      const newOtp = [...otp];
+      if (otp[index] === "" && index > 0) {
+        const prevInput = document.getElementById(`otp-slot-${index - 1}`);
+        prevInput?.focus();
+      }
+      newOtp[index] = "";
+      setOtp(newOtp);
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").slice(0, 6);
+    if (!/^\d{1,6}$/.test(pastedData)) return;
+
+    const newOtp = Array(6)
+      .fill("")
+      .map((_, i) => pastedData[i] || "");
+    setOtp(newOtp);
+
+    // Automatically focus on the last filled input
+    const lastFilledIndex = newOtp.findIndex((value) => value === "") - 1;
+    const focusIndex = lastFilledIndex >= 0 ? lastFilledIndex : 5;
+    const lastInput = document.getElementById(`otp-slot-${focusIndex}`);
+    lastInput?.focus();
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    const payload = {
-      fullName: fullName,
-      email: email,
-      password: password,
-    };
+    const code = otp.join("");
+    console.log("Entered OTP:", code);
     try {
-      console.log("sending payload:", payload);
-      // Simulate an API request with a timeout
       await new Promise((resolve) => setTimeout(resolve, 2000));
-      // Navigate to the /discover page upon success
-      navigate("/verify");
+      console.log("Code", code);
+      navigate("/discover");
     } catch (error) {
       console.log("Error submitting the form:", error);
     } finally {
-      setIsLoading(false); // Reset loading state
-      setTimeout(() => {
-        setFullName("");
-        setEmail("");
-        setPassword("");
-      }, 2000);
+      setIsLoading(false);
     }
   };
+
   return (
     <>
       <form onSubmit={handleSubmit} className="mt-8" action="#">
-        <div className="mt-10 flex justify-center items-center gap-x-10">
-          <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
-            <InputOTPGroup>
-              <InputOTPSlot index={0} />
-              <InputOTPSeparator />
-              <InputOTPSlot index={1} />
-              <InputOTPSeparator />
-
-              <InputOTPSlot index={2} />
-              <InputOTPSeparator />
-              <InputOTPSlot index={3} />
-              <InputOTPSeparator />
-              <InputOTPSlot index={4} />
-              <InputOTPSeparator />
-              <InputOTPSlot index={5} />
-            </InputOTPGroup>
-          </InputOTP>
+        <div
+          className="mt-10 flex justify-center items-center gap-x-10"
+          onPaste={handlePaste}
+        >
+          <div className="flex space-x-2">
+            {otp.map((value, index) => (
+              <input
+                key={index}
+                id={`otp-slot-${index}`}
+                value={value}
+                className="w-14 h-14 text-center text-lg border border-primary rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                maxLength={1}
+                onChange={(e) => handleInputChange(index, e.target.value)}
+                onKeyDown={(e) => handleKeyDown(index, e)}
+              />
+            ))}
+          </div>
         </div>
 
         <Button
           disabled={isLoading}
           className="p-5 mt-10 w-full bg-black hover:bg-primary"
         >
-          {isLoading ? "Loading..." : "Sign Up"}
+          {isLoading ? "Loading..." : "Verify"}
         </Button>
       </form>
     </>
