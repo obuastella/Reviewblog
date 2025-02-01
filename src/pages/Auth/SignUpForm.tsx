@@ -2,14 +2,16 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { validatePassword } from "./ValidatePassword";
+import { useAuthStore } from "@/store/authStore";
+import { Loader } from "lucide-react";
 export default function SignUpForm() {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { signup, error, isLoading } = useAuthStore();
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -19,7 +21,7 @@ export default function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const payload = {
       fullName: fullName,
       email: email,
@@ -28,13 +30,14 @@ export default function SignUpForm() {
     try {
       console.log("sending payload:", payload);
       // Simulate an API request with a timeout
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
+      await signup(fullName, email, password);
       // Navigate to the /discover page upon success
       navigate("/verify");
     } catch (error) {
       console.log("Error submitting the form:", error);
     } finally {
-      setIsLoading(false); // Reset loading state
+      // setIsLoading(false); // Reset loading state
       setTimeout(() => {
         setFullName("");
         setEmail("");
@@ -96,11 +99,17 @@ export default function SignUpForm() {
             )}
           </div>
         </div>
+        {error && <p className="text-red-500">{error}</p>}
         <Button
           disabled={isLoading}
           className="p-5 mt-10 w-full bg-black hover:bg-primary"
         >
-          {isLoading ? "Loading..." : "Sign Up"}
+          {/* {isLoading ? "Loading..." : "Sign Up"} */}
+          {isLoading ? (
+            <Loader className="animate-spin mx-auto" size={24} />
+          ) : (
+            "Sign Up"
+          )}
         </Button>
         <div className="sm:text-sm mt-4 px-2 flex justify-between items-center">
           <Link className="text-sm " to="/login">
