@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/authStore";
+import { Loader } from "lucide-react";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 export default function VerifyEmailForm() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
+  const { error, isLoading, verifyEmail } = useAuthStore();
   const handleInputChange = (index: number, value: string) => {
     if (!/^\d?$/.test(value)) return; // Allow only digits
     const newOtp = [...otp];
@@ -54,17 +56,16 @@ export default function VerifyEmailForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
     const code = otp.join("");
     console.log("Entered OTP:", code);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await verifyEmail(code);
       console.log("Code", code);
+      toast.success("Email verified successfully");
       navigate("/discover");
-    } catch (error) {
-      console.log("Error submitting the form:", error);
-    } finally {
-      setIsLoading(false);
+    } catch (e: any) {
+      console.log("Error verifying email:", error);
+      toast.error(e.response.data.message);
     }
   };
 
@@ -94,7 +95,11 @@ export default function VerifyEmailForm() {
           disabled={isLoading}
           className="p-5 mt-10 w-full bg-black hover:bg-primary"
         >
-          {isLoading ? "Loading..." : "Verify"}
+          {isLoading ? (
+            <Loader className="animate-spin mx-auto" size={24} />
+          ) : (
+            "Verify"
+          )}
         </Button>
       </form>
     </>

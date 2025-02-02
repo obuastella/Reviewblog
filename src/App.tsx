@@ -5,6 +5,7 @@ import SignUp from "./pages/Auth/SignUp";
 import Login from "./pages/Auth/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import VerifyEmail from "./pages/Auth/VerifyEmail";
+import { Toaster } from "react-hot-toast";
 export default function App() {
   return (
     <>
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/contact-us" element={<Dashboard />} />
         </Routes>
       </Router>
+      <Toaster />
     </>
   );
 }

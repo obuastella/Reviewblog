@@ -21,7 +21,10 @@ export default function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setIsLoading(true);
+    if (!fullName || !email || !password) {
+      console.log("All fields are required.");
+      return;
+    }
     const payload = {
       fullName: fullName,
       email: email,
