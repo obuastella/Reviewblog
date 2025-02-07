@@ -3,6 +3,8 @@ import { connectDb } from "./db/connectDb.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./router/auth.routes.js";
+import bookRoutes from "./router/book.routes.js";
+
 import cookieParser from "cookie-parser";
 import path from "path";
 dotenv.config();
@@ -13,11 +15,12 @@ const __dirname = path.resolve();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.use(express.json()); // allows us to parse income requests :req.body
-// app.use(cookieParser()); //allows us to parse incoming cookies
+app.use(cookieParser()); //allows us to parse incoming cookies
 // app.get("/", (req, res) => {
 //   res.send("Hello, world!");
 // });
 app.use("/api/auth", authRoutes);
+app.use("/api/books", bookRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
