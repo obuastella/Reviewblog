@@ -1,34 +1,25 @@
 import { Button } from "@/components/ui/button";
+import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginForm() {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
+  const { login, isLoading, error }: any = useAuthStore();
   const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
-    const payload = {
-      email: email,
-      password: password,
-    };
+
     try {
-      console.log("sending payload:", payload);
-      await new Promise((resolve) => {
-        setTimeout(resolve, 2000);
-      });
-      console.log("Success!");
+      await login(email, password);
+      toast.success("Logged in successfully!");
       navigate("/discover");
-    } catch (error) {
-      console.log("An error occurred", error);
-    } finally {
-      setIsLoading(false);
-      setTimeout(() => {
-        setEmail("");
-        setPassword("");
-      }, 2000); // reset the form
+    } catch (e: any) {
+      console.log(error);
+      toast.error(e?.response?.data?.message);
     }
   };
   return (

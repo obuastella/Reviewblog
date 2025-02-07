@@ -8,10 +8,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useAuthStore } from "@/store/authStore";
 import { Compass, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 
 export function AppSidebar() {
+  const { logout }: any = useAuthStore();
+  const navigate = useNavigate();
   const projects = [
     {
       name: "Discover",
@@ -34,7 +38,11 @@ export function AppSidebar() {
     //   icon: <PhoneCall />,
     // },
   ];
-
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged out successfully!");
+    navigate("/");
+  };
   return (
     <Sidebar className="h-screen flex flex-col">
       <SidebarContent className="flex flex-col flex-grow">
@@ -73,13 +81,13 @@ export function AppSidebar() {
       </SidebarContent>
       {/* Log Out Button */}
       <div className="flex p-4 border-t">
-        <Link
-          to="/"
+        <button
+          onClick={handleLogout}
           className="flex justify-start gap-x-4 items-center text-white font-bold w-fit text-left"
         >
           Log Out
           <LogOut />
-        </Link>
+        </button>
       </div>
     </Sidebar>
   );

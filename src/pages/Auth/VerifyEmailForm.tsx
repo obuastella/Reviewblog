@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { useAuthStore } from "@/store/authStore";
+
 import { Loader } from "lucide-react";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { useAuthStore } from "@/store/authStore";
 
 export default function VerifyEmailForm() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const { error, isLoading } = useAuthStore();
+
+  const { error, isLoading, verifyEmail }: any = useAuthStore();
+
   const handleInputChange = (index: number, value: string) => {
     if (!/^\d?$/.test(value)) return; // Allow only digits
     const newOtp = [...otp];
@@ -59,13 +62,12 @@ export default function VerifyEmailForm() {
     const code = otp.join("");
     console.log("Entered OTP:", code);
     try {
-      // await verifyEmail(code);
-      console.log("Code", code);
+      await verifyEmail(code);
+      navigate("/login");
       toast.success("Email verified successfully");
-      navigate("/discover");
     } catch (e: any) {
-      console.log("Error verifying email:", error);
-      toast.error(e.response.data.message);
+      toast.error(e?.response?.data.message);
+      console.log(error);
     }
   };
 
