@@ -8,7 +8,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Compass, Users, LogOut, BookOpen, PhoneCall } from "lucide-react";
+import { Compass, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function AppSidebar() {
@@ -18,21 +18,21 @@ export function AppSidebar() {
       url: "/discover",
       icon: <Compass />,
     },
-    {
-      name: "My Books",
-      url: "/my-books",
-      icon: <BookOpen />,
-    },
-    {
-      name: "Join Club",
-      url: "/bookclub",
-      icon: <Users />,
-    },
-    {
-      name: "Contact Us",
-      url: "/contact-us",
-      icon: <PhoneCall />,
-    },
+    // {
+    //   name: "My Books",
+    //   url: "/my-books",
+    //   icon: <BookOpen />,
+    // },
+    // {
+    //   name: "Join Club",
+    //   url: "/bookclub",
+    //   icon: <Users />,
+    // },
+    // {
+    //   name: "Contact Us",
+    //   url: "/contact-us",
+    //   icon: <PhoneCall />,
+    // },
   ];
 
   return (
@@ -59,7 +59,7 @@ export function AppSidebar() {
                   <SidebarMenuButton asChild>
                     <Link
                       to={project.url}
-                      className="hover:rounded flex items-center space-x-2"
+                      className="bg-primary/95 hover:rounded flex items-center space-x-2"
                     >
                       {project.icon}
                       <span className="text-base">{project.name}</span>
