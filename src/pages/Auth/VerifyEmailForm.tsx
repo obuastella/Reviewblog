@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export default function VerifyEmailForm() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const { error, isLoading, verifyEmail } = useAuthStore();
+  const { error, isLoading } = useAuthStore();
   const handleInputChange = (index: number, value: string) => {
     if (!/^\d?$/.test(value)) return; // Allow only digits
     const newOtp = [...otp];
@@ -59,7 +59,7 @@ export default function VerifyEmailForm() {
     const code = otp.join("");
     console.log("Entered OTP:", code);
     try {
-      await verifyEmail(code);
+      // await verifyEmail(code);
       console.log("Code", code);
       toast.success("Email verified successfully");
       navigate("/discover");

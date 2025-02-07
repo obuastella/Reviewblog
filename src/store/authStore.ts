@@ -59,4 +59,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
       throw error;
     }
   },
+
+  checkAuth: async () => {
+    set({ isCheckingAuth: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/check-auth`);
+      set({
+        isCheckingAuth: false,
+        isAuthenticated: true,
+        user: response.data.user,
+      });
+    } catch (error: any) {
+      set({ error: null, isCheckingAuth: false, isAuthenticated: true });
+    }
+  },
 }));

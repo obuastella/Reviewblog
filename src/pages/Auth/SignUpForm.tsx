@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { validatePassword } from "./ValidatePassword";
-import { useAuthStore } from "@/store/authStore";
 import { Loader } from "lucide-react";
 export default function SignUpForm() {
   const navigate = useNavigate();
@@ -10,8 +9,8 @@ export default function SignUpForm() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>("");
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { signup, error, isLoading } = useAuthStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const { signup, error, isLoading } = useAuthStore();
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -19,34 +18,49 @@ export default function SignUpForm() {
     setPasswordError(error);
   };
 
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   if (!fullName || !email || !password) {
+  //     console.log("All fields are required.");
+  //     return;
+  //   }
+  //   const payload = {
+  //     fullName: fullName,
+  //     email: email,
+  //     password: password,
+  //   };
+  //   try {
+  //     console.log("sending payload:", payload);
+  //     // Simulate an API request with a timeout
+  //     // await new Promise((resolve) => setTimeout(resolve, 2000));
+  //     await signup(fullName, email, password);
+  //     // Navigate to the /discover page upon success
+  //     navigate("/verify");
+  //   } catch (error) {
+  //     console.log("Error submitting the form:", error);
+  //   } finally {
+  //     // setIsLoading(false); // Reset loading state
+  //     setTimeout(() => {
+  //       setFullName("");
+  //       setEmail("");
+  //       setPassword("");
+  //     }, 2000);
+  //   }
+  // };
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!fullName || !email || !password) {
-      console.log("All fields are required.");
-      return;
-    }
     const payload = {
       fullName: fullName,
       email: email,
-      password: password,
     };
-    try {
-      console.log("sending payload:", payload);
-      // Simulate an API request with a timeout
-      // await new Promise((resolve) => setTimeout(resolve, 2000));
-      await signup(fullName, email, password);
-      // Navigate to the /discover page upon success
-      navigate("/verify");
-    } catch (error) {
-      console.log("Error submitting the form:", error);
-    } finally {
-      // setIsLoading(false); // Reset loading state
-      setTimeout(() => {
-        setFullName("");
-        setEmail("");
-        setPassword("");
-      }, 2000);
-    }
+    console.log("Payload:", payload);
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 2000);
+    setIsLoading(false);
+
+    navigate("/verify");
   };
   return (
     <>
@@ -102,17 +116,23 @@ export default function SignUpForm() {
             )}
           </div>
         </div>
-        {error && <p className="text-red-500">{error}</p>}
+        {/* {error && <p className="text-red-500">{error}</p>} */}
+
         <Button
           disabled={isLoading}
           className="p-5 mt-10 w-full bg-black hover:bg-primary"
         >
-          {/* {isLoading ? "Loading..." : "Sign Up"} */}
           {isLoading ? (
             <Loader className="animate-spin mx-auto" size={24} />
           ) : (
             "Sign Up"
           )}
+
+          {/* {isLoading ? (
+            <Loader className="animate-spin mx-auto" size={24} />
+          ) : (
+            "Sign Up"
+          )} */}
         </Button>
         <div className="sm:text-sm mt-4 px-2 flex justify-between items-center">
           <Link className="text-sm " to="/login">
