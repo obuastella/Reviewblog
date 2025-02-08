@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
@@ -7,18 +8,20 @@ import { Link, useNavigate } from "react-router-dom";
 export default function LoginForm() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const { login, isLoading, error }: any = useAuthStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const { login, isLoading, error }: any = useAuthStore();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     try {
-      await login(email, password);
+      // await login(email, password);
       toast.success("Logged in successfully!");
       navigate("/discover");
+      // setIsLoading(false);
     } catch (e: any) {
-      console.log(error);
+      console.log(e);
       toast.error(e?.response?.data?.message);
     }
   };

@@ -38,7 +38,7 @@ export default function Reviews() {
   };
 
   return (
-    <div className="p-4 w-full h-screen bg-primary/95 flex flex-col">
+    <div className="p-4 w-full h-full bg-primary/95 flex flex-col">
       {/* Header */}
       <section className="m-auto my-6 w-full max-w-2xl">
         <Link
@@ -50,13 +50,14 @@ export default function Reviews() {
         </Link>
 
         <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Reviews for Book {id}</h1>
+          {/* <h1 className="text-2xl font-bold mb-4">Reviews for Book {id}</h1> */}
+          <h1 className="text-2xl font-bold mb-4">Reviews for Book </h1>
 
           {/* Book Image */}
           <img
             src="/images/darkside.jpeg"
             alt="Book Cover"
-            className="w-full h-60 object-cover rounded-md mb-4 shadow-lg"
+            className="w-fit h-60 object-fit rounded-md mb-4 shadow-lg"
           />
 
           {/* Reviews Section */}
@@ -88,7 +89,7 @@ export default function Reviews() {
       </section>
 
       {/* Input Section (Sticky at the bottom) */}
-      <div className="bg-white p-4 flex items-center gap-2 shadow-lg border-t w-full max-w-2xl mx-auto">
+      <div className="rounded-md bg-white p-4 flex items-center gap-2 shadow-lg border-t w-full max-w-2xl mx-auto">
         <input
           type="text"
           placeholder="Write your review..."

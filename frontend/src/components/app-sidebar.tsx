@@ -55,7 +55,7 @@ export function AppSidebar() {
                 alt="profile"
               />
               <div>
-                <h3 className="text-white text-base">@obuastella</h3>
+                <h3 className="text-white text-base">@anyonmous</h3>
                 <p className="text-black/40">User</p>
               </div>
             </div>
