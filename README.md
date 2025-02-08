@@ -20,17 +20,6 @@ Authentication: MongoDB, Express.js
 Email Service: Mailtrap
 Version Control: Git + GitHub
 
-📂 Project Structure
-
-src/
-├── components/      # Reusable components
-├── pages/           # Application pages
-├── Auth/            # Authentication (Login, Register, Forgot Password)
-├── styles/          # Global and component-specific styles
-├── store/           # Zustand store for state management
-├── App.tsx          # Main app component
-└── assets/          # Static files (images, icons)
-
 
 ## 👥 Team Members for Group I
 1. Obua Stella Wenayam - Group Leader
