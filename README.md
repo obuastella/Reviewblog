@@ -6,7 +6,7 @@ Authentication:
 🔐 Login, 📝 Register, and Password Reset.
 
 # Review Management:
-➕ Add, ✏️ Edit, ❌ Delete, and 👀 View book reviews.
+➕ Add and 👀 View book reviews.
 
 # User-Friendly Interface:
 🧑‍💻 Clean, responsive design with intuitive navigation.
