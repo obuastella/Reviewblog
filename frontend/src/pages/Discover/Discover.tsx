@@ -13,7 +13,7 @@ import axios from "axios";
 import { BASE_URL } from "@/store/authStore";
 
 export default function Discover() {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<any>([]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -27,6 +27,7 @@ export default function Discover() {
     };
     fetchBooks();
   }, []);
+
   const [selectedBook, setSelectedBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [review, setReview] = useState("");
