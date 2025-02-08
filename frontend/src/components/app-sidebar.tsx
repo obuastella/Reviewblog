@@ -8,13 +8,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useAuthStore } from "@/store/authStore";
+// import { useAuthStore } from "@/store/authStore";
 import { Compass, LogOut } from "lucide-react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 export function AppSidebar() {
-  const { logout }: any = useAuthStore();
+  // const { logout }: any = useAuthStore();
   const navigate = useNavigate();
   const projects = [
     {
@@ -39,7 +39,7 @@ export function AppSidebar() {
     // },
   ];
   const handleLogout = () => {
-    logout();
+    // logout();
     toast.success("Logged out successfully!");
     navigate("/");
   };

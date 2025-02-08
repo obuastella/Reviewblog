@@ -27,12 +27,50 @@ router.get("/:id", async (req, res) => {
 // ✅ Add a new book
 router.post("/", async (req, res) => {
   try {
-    const { title, image } = req.body;
-    const newBook = new Book({ title, image });
+    const { title, author, image } = req.body;
+    const newBook = new Book({ title, author, image });
     await newBook.save();
     res.status(201).json(newBook);
   } catch (error) {
     res.status(500).json({ error: "Failed to add book" });
+  }
+});
+
+// ✅ Update a book
+router.put("/:id", async (req, res) => {
+  try {
+    const { title, author, image } = req.body;
+    const book = await Book.findById(req.params.id);
+
+    if (!book) return res.status(404).json({ error: "Book not found" });
+
+    // Update book details
+    book.title = title || book.title;
+    book.author = author || book.author;
+    book.image = image || book.image;
+
+    await book.save();
+
+    res.status(200).json({ message: "Book updated successfully", book });
+  } catch (error) {
+    console.error(error); // Log any errors
+    res.status(500).json({ error: "Failed to update book" });
+  }
+});
+
+// ✅ Delete a book
+router.delete("/:id", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) return res.status(404).json({ error: "Book not found" });
+
+    // Use findByIdAndDelete to delete the book
+    await Book.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Book deleted successfully" });
+  } catch (error) {
+    console.error(error); // Log the error for better debugging
+    res.status(500).json({ error: "Failed to delete book" });
   }
 });
 

@@ -9,7 +9,9 @@ const ReviewSchema = new mongoose.Schema(
 );
 
 const BookSchema = new mongoose.Schema({
-  title: String,
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  image: { type: String, required: true },
   reviews: [
     {
       user: String,
