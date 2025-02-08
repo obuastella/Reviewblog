@@ -12,44 +12,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BASE_URL } from "@/store/authStore";
 
-// const initialBooks = [
-//   {
-//     id: 1,
-//     title: "The Great Gatsby",
-//     image: "/images/a-crime.jpeg",
-//     reviews: 10,
-//   },
-//   {
-//     id: 2,
-//     title: "To Kill a Mockingbird",
-//     image: "/images/darkside.jpeg",
-//     reviews: 8,
-//   },
-//   { id: 3, title: "1984", image: "/images/smoke-thieves.jpeg", reviews: 15 },
-//   {
-//     id: 4,
-//     title: "Pride and Prejudice",
-//     image: "/images/pride.jpg",
-//     reviews: 12,
-//   },
-//   {
-//     id: 5,
-//     title: "The Catcher in the Rye",
-//     image: "/images/catcher.jpg",
-//     reviews: 7,
-//   },
-//   { id: 6, title: "Moby-Dick", image: "/images/mobydick.jpg", reviews: 5 },
-//   { id: 7, title: "The Hobbit", image: "/images/hobbit.jpg", reviews: 20 },
-//   { id: 8, title: "War and Peace", image: "/images/warpeace.jpg", reviews: 9 },
-//   { id: 9, title: "The Odyssey", image: "/images/odyssey.jpg", reviews: 6 },
-//   {
-//     id: 10,
-//     title: "Crime and Punishment",
-//     image: "/images/crime.jpg",
-//     reviews: 14,
-//   },
-// ];
-
 export default function Discover() {
   const [books, setBooks] = useState([]);
 
@@ -65,10 +27,8 @@ export default function Discover() {
     };
     fetchBooks();
   }, []);
-  // const [books, setBooks] = useState(initialBooks);
   const [selectedBook, setSelectedBook] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [reviewText, setReviewText] = useState("");
   const [review, setReview] = useState("");
   const navigate = useNavigate();
 
@@ -77,16 +37,7 @@ export default function Discover() {
     setSelectedBook(book);
     setIsModalOpen(true);
   };
-  // setBooks((prevBooks: any) =>
-  //   prevBooks.map((book: any) =>
-  //     book.id === selectedBook?.id
-  //       ? { ...book, reviews: book.reviews + 1 }
-  //       : book
-  //   )
-  // );
-  // const submitReview = async () => {
-  //   setIsModalOpen(false);
-  // };
+
   const submitReview = async () => {
     if (!selectedBook) {
       console.error("No book selected.");
