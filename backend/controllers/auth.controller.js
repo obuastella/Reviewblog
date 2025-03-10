@@ -7,15 +7,24 @@ import {
   sendResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-} from "../mailtrap/email.js";
+} from "../utils/emailService.js";
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
     if (!email || !password || !fullName) {
       throw new Error("All fields are required");
     }
-    const userAlreadyExists = await User.findOne({ email });
-    if (userAlreadyExists) {
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      if (!existingUser.isVerified) {
+        return res.status(400).json({
+          success: false,
+          message:
+            "This email is registered but not verified. Please check your email for the verification code.",
+        });
+      }
       return res
         .status(400)
         .json({ success: false, message: "User already exists" });
@@ -25,30 +34,32 @@ export const signup = async (req, res) => {
     const verificationToken = Math.floor(
       100000 + Math.random() * 900000
     ).toString();
+
     const user = new User({
-      email: email,
+      email,
       password: hashPassword,
       fullName,
       verificationToken,
-      verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // expires in 24hours
+      verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000, // expires in 24 hours
     });
+
     await user.save();
-    //authenticate jwt
+
+    // Authenticate with JWT
     generateTokenAndSetCookie(res, user._id);
 
     sendVerificationEmail(user.email, verificationToken);
+
     return res.status(201).json({
       success: true,
-      message: "User created successfully",
-      user: {
-        ...user._doc,
-        password: undefined,
-      },
+      message:
+        "User created successfully. Please check your email to verify your account.",
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 export const verifyEmail = async (req, res) => {
   const { code } = req.body;
   try {
@@ -89,23 +100,35 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
+
     if (!user) {
       return res
         .status(404)
         .json({ success: false, message: "User not found" });
     }
+
+    if (!user.isVerified) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Your account is not verified. Please check your email for the verification code.",
+      });
+    }
+
     const isPasswordValid = await bcryptjs.compare(password, user.password);
     if (!isPasswordValid) {
       return res
-        .status(404)
+        .status(400)
         .json({ success: false, message: "Password is invalid" });
     }
+
     generateTokenAndSetCookie(res, user.id);
     user.lastLogin = new Date();
     await user.save();
+
     res.status(200).json({
       success: true,
-      message: "User saved successfully Logged in",
+      message: "Successfully logged in",
       user: {
         ...user._doc,
         password: undefined,
@@ -116,6 +139,7 @@ export const login = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+
 export const logout = async (req, res) => {
   res.clearCookie("token");
   res.status(200).json({ success: true, message: "Logged out successfully" });
