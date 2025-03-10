@@ -1,4 +1,3 @@
-//@ts-nocheck
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,8 +11,8 @@ export default function SignUpForm() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>("");
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const { signup, error, isLoading }: any = useAuthStore();
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { signup, isLoading }: any = useAuthStore();
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -23,14 +22,14 @@ export default function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
-      // await signup(email, password, fullName);
-      // toast.success("An email has been sent!");
-      // navigate("/verify");
-      toast.success("User registered successfully!");
-      navigate("/login");
-      setIsLoading(false);
+      await signup(email, password, fullName);
+      toast.success("An email has been sent!");
+      navigate("/verify");
+      // toast.success("User registered successfully!");
+      // navigate("/login");
+      // setIsLoading(false);
     } catch (e: any) {
       toast.error(e?.response?.data.message);
       console.log(e);
