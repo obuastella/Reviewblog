@@ -5,14 +5,14 @@ import { validatePassword } from "./ValidatePassword";
 import { Loader } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import toast from "react-hot-toast";
+import PasswordInput from "@/components/PasswordInput";
 export default function SignUpForm() {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState<string>();
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [passwordError, setPasswordError] = useState<string>("");
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { signup, isLoading }: any = useAuthStore();
+  const { signup, isLoading, error }: any = useAuthStore();
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
     setPassword(newPassword);
@@ -22,17 +22,13 @@ export default function SignUpForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setIsLoading(true);
     try {
       await signup(email, password, fullName);
       toast.success("An email has been sent!");
       navigate("/verify");
-      // toast.success("User registered successfully!");
-      // navigate("/login");
-      // setIsLoading(false);
     } catch (e: any) {
       toast.error(e?.response?.data.message);
-      console.log(e);
+      console.log(error);
     }
   };
   return (
@@ -72,25 +68,12 @@ export default function SignUpForm() {
               Password <span className="text-red-400">*</span>
             </label>
             <br />
-            <input
-              id="password"
-              onChange={handlePasswordChange}
-              value={password}
-              className={`ps-2 w-[100%] rounded-md py-2 ${
-                passwordError
-                  ? "border-red-500 border"
-                  : "border-gray-300 border"
-              }`}
-              type="password"
-              required
-            />
+            <PasswordInput value={password} onChange={handlePasswordChange} />
             {passwordError && (
               <p className="text-red-500 text-sm mt-2">{passwordError}</p>
             )}
           </div>
         </div>
-        {/* {error && <p className="text-red-500">{error}</p>} */}
-
         <Button
           disabled={isLoading}
           className="p-5 mt-10 w-full bg-black hover:bg-primary"
