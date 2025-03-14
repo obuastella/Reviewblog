@@ -37,6 +37,7 @@ import { Toaster } from "react-hot-toast";
 import Reviews from "./pages/Reviews/Review";
 import ForgotPassword from "./pages/Auth/ForgotPassword";
 import ResetPassword from "./pages/Auth/ResetPassword";
+import OtpSent from "./pages/Auth/OtpSent";
 
 export default function App() {
   return (
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/forgot-password-confirm" element={<OtpSent />} />
           <Route path="/reset-password/:id" element={<ResetPassword />} />
           <Route path="/discover" element={<Dashboard />} />
           {/* <Route path="/my-books" element={<Dashboard />} /> */}

@@ -104,7 +104,7 @@ export const login = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ success: false, message: "User not found" });
+        .json({ success: false, message: "User does not exist" });
     }
 
     if (!user.isVerified) {
@@ -151,7 +151,7 @@ export const forgotPassword = async (req, res) => {
     if (!email)
       return res
         .status(404)
-        .json({ success: false, message: "User not found" });
+        .json({ success: false, message: "User does not exist" });
     // generate reset token
     const resetToken = crypto.randomBytes(20).toString("hex");
     const resetExpiry = Date.now() + 1 * 60 * 60 * 1000; // 1hour
@@ -215,7 +215,7 @@ export const checkAuth = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "User not found" });
+        .json({ success: false, message: "User does not exist" });
     }
     res.status(200).json({ success: true, user });
   } catch (error) {

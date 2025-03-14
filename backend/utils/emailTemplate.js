@@ -48,10 +48,6 @@ export const WELCOME_EMAIL_TEMPLATE = `
       <li>Customize your profile</li>
       <li>Get started with our features</li>
     </ul>
-    <p>Click the button below to get started:</p>
-    <div style="text-align: center; margin: 30px 0;">
-      <a href="{dashboardURL}" style="background-color: #FF700F; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px; font-weight: bold;">Go to Dashboard</a>
-    </div>
     <p>If you have any questions, feel free to contact our support team.</p>
     <p>Best regards,<br>ReviewBlog</p>
   </div>

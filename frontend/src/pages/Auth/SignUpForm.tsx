@@ -24,7 +24,7 @@ export default function SignUpForm() {
     e.preventDefault();
     try {
       await signup(email, password, fullName);
-      toast.success("An email has been sent!");
+      toast.success("An OTP has been sent to your mail!");
       navigate("/verify");
     } catch (e: any) {
       toast.error(e?.response?.data.message);

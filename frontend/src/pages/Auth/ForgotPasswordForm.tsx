@@ -8,14 +8,14 @@ import { Link, useNavigate } from "react-router-dom";
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState<string>();
   const { forgotPassword, isLoading, error }: any = useAuthStore();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       await forgotPassword(email);
       toast.success("Otp has been sent to your mail!");
-      // navigate("/update-password");
+      navigate("/forgot-password-confirm");
     } catch (e: any) {
       console.log(error);
       toast.error(e?.response?.data?.message);
