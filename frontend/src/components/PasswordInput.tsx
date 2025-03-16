@@ -10,7 +10,7 @@ interface PasswordInputProps {
 const PasswordInput: React.FC<PasswordInputProps> = ({
   value,
   onChange,
-  placeholder = "Enter your password",
+  placeholder = "",
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 

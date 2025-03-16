@@ -15,6 +15,7 @@ import Disocver from "../Discover/Discover";
 import MyBooks from "../MyBooks/MyBooks";
 import JoinClub from "../JoinClub/JoinClub";
 import ContactUs from "../ContactUs/ContactUs";
+import Settings from "../Settings/Settings";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -28,6 +29,8 @@ export default function Dashboard() {
         return <JoinClub />;
       case "/contact-us":
         return <ContactUs />;
+      case "/settings":
+        return <Settings />;
     }
   };
   return (

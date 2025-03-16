@@ -52,6 +52,7 @@ export default function App() {
           <Route path="/forgot-password-confirm" element={<OtpSent />} />
           <Route path="/reset-password/:id" element={<ResetPassword />} />
           <Route path="/discover" element={<Dashboard />} />
+          <Route path="/settings" element={<Dashboard />} />
           {/* <Route path="/my-books" element={<Dashboard />} /> */}
           {/* <Route path="/bookclub" element={<Dashboard />} /> */}
           {/* <Route path="/contact-us" element={<Dashboard />} /> */}

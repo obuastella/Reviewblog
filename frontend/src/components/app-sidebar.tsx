@@ -63,7 +63,7 @@ export function AppSidebar() {
               />
               <div>
                 <h3 className="text-white text-base">
-                  {user.fullName ? user.fullName : "anonymous"}
+                  {user?.fullName ? user?.fullName : "anonymous"}
                 </h3>
                 <p className="text-black/40">User</p>
               </div>
