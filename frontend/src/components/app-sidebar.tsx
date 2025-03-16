@@ -9,18 +9,24 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useAuthStore } from "@/store/authStore";
-import { Compass, LogOut } from "lucide-react";
+import { Compass, LogOut, Settings } from "lucide-react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export function AppSidebar() {
-  const { logout }: any = useAuthStore();
+  const { logout, user }: any = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const projects = [
     {
       name: "Discover",
       url: "/discover",
       icon: <Compass />,
+    },
+    {
+      name: "Settings",
+      url: "/settings",
+      icon: <Settings />,
     },
     // {
     //   name: "My Books",
@@ -38,6 +44,7 @@ export function AppSidebar() {
     //   icon: <PhoneCall />,
     // },
   ];
+
   const handleLogout = () => {
     logout();
     toast.success("Logged out successfully!");
@@ -55,26 +62,33 @@ export function AppSidebar() {
                 alt="profile"
               />
               <div>
-                <h3 className="text-white text-base">@anyonmous</h3>
+                <h3 className="text-white text-base">
+                  {user.fullName ? user.fullName : "anonymous"}
+                </h3>
                 <p className="text-black/40">User</p>
               </div>
             </div>
           </SidebarGroupLabel>
           <SidebarGroupContent className="w-[95%] ms-2 mt-4">
             <SidebarMenu>
-              {projects.map((project) => (
-                <SidebarMenuItem key={project.name}>
-                  <SidebarMenuButton asChild>
-                    <Link
-                      to={project.url}
-                      className="bg-primary/95 hover:rounded flex items-center space-x-2"
-                    >
-                      {project.icon}
-                      <span className="text-base">{project.name}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {projects.map((project) => {
+                const isActive = location.pathname === project.url;
+                return (
+                  <SidebarMenuItem key={project.name}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        to={project.url}
+                        className={`hover:rounded flex items-center space-x-2 ${
+                          isActive ? "bg-primary/95 " : "bg-[#994D1C]"
+                        }`}
+                      >
+                        {project.icon}
+                        <span className="text-base">{project.name}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
