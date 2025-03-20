@@ -312,3 +312,43 @@ export const checkAuth = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Both current and new password are required",
+      });
+    }
+
+    const user = await User.findById(req.userId);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    const isMatch = await bcryptjs.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Current password is incorrect" });
+    }
+
+    const hashedPassword = await bcryptjs.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    await sendResetSuccessEmail(user.email);
+
+    res.status(200).json({
+      success: true,
+      message:
+        "Password changed successfully. A confirmation email has been sent.",
+    });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

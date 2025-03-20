@@ -9,6 +9,7 @@ import {
   resetPassword,
   updateProfileImage,
   updateUserDetails,
+  changePassword,
 } from "../controllers/auth.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 import upload from "../middleware/upload.js";
@@ -28,4 +29,5 @@ router.post(
   updateProfileImage
 );
 router.put("/update-profile", verifyToken, updateUserDetails);
+router.put("/change-password", verifyToken, changePassword);
 export default router;
