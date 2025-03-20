@@ -1,6 +1,8 @@
 import PasswordInput from "@/components/PasswordInput";
 import { Button } from "@/components/ui/button";
 import { validatePassword } from "@/pages/Auth/ValidatePassword";
+import { useAuthStore } from "@/store/authStore";
+import { Loader } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -9,7 +11,7 @@ export default function SecuritySettings() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
+  const { changePassword, isLoading }: any = useAuthStore();
   const handleNewPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const password = e.target.value;
     setNewPassword(password);
@@ -23,14 +25,18 @@ export default function SecuritySettings() {
     newPassword === confirmPassword &&
     passwordError === "";
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    toast.success("Password updated successfully");
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setPasswordError("");
+    try {
+      await changePassword(currentPassword, confirmPassword);
+      toast.success("Password updated successfully");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setPasswordError("");
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message);
+    }
   };
 
   return (
@@ -72,7 +78,11 @@ export default function SecuritySettings() {
                 : "bg-secondary/90 cursor-not-allowed"
             }`}
           >
-            Save Changes
+            {isLoading ? (
+              <Loader className="animate-spin mx-auto" size={24} />
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </div>
       </form>
