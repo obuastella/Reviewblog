@@ -161,4 +161,60 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+  updateUser: async (email, fullName, phone) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.put(`${API_URL}/update-profile`, {
+        email,
+        fullName,
+        phone,
+      });
+
+      set((state) => ({
+        user: {
+          ...state.user,
+          fullName,
+          email,
+          phone,
+        },
+        message: response.data.message,
+        isLoading: false,
+      }));
+    } catch (error) {
+      set({
+        isLoading: false,
+        error:
+          error.response?.data?.message || "Error updating user credentials",
+      });
+      throw error;
+    }
+  },
+  changeAvatar: async (formData) => {
+    set({ isLoading: true, error: null });
+
+    try {
+      const response = await axios.post(
+        `${API_URL}/update-profile-image`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      set((state) => ({
+        user: {
+          ...state.user,
+          image: response.data.image,
+        },
+        message: response.data.message,
+        isLoading: false,
+      }));
+    } catch (error) {
+      set({
+        isLoading: false,
+        error: error.response?.data?.message || "Error updating profile",
+      });
+      throw error;
+    }
+  },
 }));

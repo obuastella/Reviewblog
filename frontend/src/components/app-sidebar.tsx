@@ -55,10 +55,15 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col flex-grow">
         <SidebarGroup>
           <SidebarGroupLabel className="cursor-pointer my-4">
-            <div className="p-2 flex justify-start items-center gap-x-3 w-full shadow py-4 mt-2 rounded-xl">
+            <Link
+              to="/settings"
+              className="p-2 flex justify-start items-center gap-x-3 w-full shadow py-4 mt-2 rounded-xl"
+            >
               <img
                 className="w-10 h-10 rounded-full bg-gray-700"
-                src="/no-profile.webp"
+                src={
+                  user?.profileImage ? user?.profileImage : "/no-profile.webp"
+                }
                 alt="profile"
               />
               <div>
@@ -67,7 +72,7 @@ export function AppSidebar() {
                 </h3>
                 <p className="text-black/40">User</p>
               </div>
-            </div>
+            </Link>
           </SidebarGroupLabel>
           <SidebarGroupContent className="w-[95%] ms-2 mt-4">
             <SidebarMenu>
