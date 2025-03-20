@@ -1,22 +1,76 @@
-import PasswordInput from "@/components/PasswordInput";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useAuthStore } from "@/store/authStore";
+import { useEffect, useState } from "react";
+import SecuritySettings from "./components/SecuritySettings";
+import toast from "react-hot-toast";
 
 export default function Settings() {
-  const [currentPassword, setCurrentPassword] = useState();
-  const [newPassword, setNewPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const { user }: any = useAuthStore();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  console.log("Logged in user", user);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImage(imageUrl);
+    }
+  };
+
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+  });
+  //set inital values if user exist
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        fullName: user.fullName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+      });
+    }
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const updateProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast.success("Profile info updated successfully!");
+
+    console.log("button clicked");
+  };
+
   return (
     <div className="px-2">
       <h1 className="text-2xl font-bold mb-4">Settings</h1>
       <div className="w-full md:w-[90%]">
         <div className="flex flex-wrap gap-y-4 justify-start items-end">
           <img
-            src="/no-profile.webp"
+            src={selectedImage || "/no-profile.webp"}
             alt="profile"
             className="w-40 h-40 rounded-full border-2"
           />
-          <Button className="bg-secondary">Change your Profile</Button>
+          <input
+            type="file"
+            accept="image/*"
+            id="profileInput"
+            className="hidden"
+            onChange={handleImageChange}
+          />
+
+          <Button
+            className="bg-secondary"
+            onClick={() => document.getElementById("profileInput")?.click()}
+          >
+            Change your Profile
+          </Button>
         </div>
         <form action="">
           <div className="mt-8 grid gap-6 mb-6 md:grid-cols-2">
@@ -31,6 +85,8 @@ export default function Settings() {
                 id="fullName"
                 className="block p-2.5 w-full rounded-md bg-gray-50 border border-gray-300"
                 type="text"
+                value={formData.fullName}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -41,6 +97,8 @@ export default function Settings() {
                 id="email"
                 className="block p-2.5 w-full rounded-md bg-gray-50 border border-gray-300"
                 type="text"
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
           </div>
@@ -52,39 +110,18 @@ export default function Settings() {
               id="phone"
               className="block p-2.5 w-full rounded-md bg-gray-50 border border-gray-300"
               type="tel"
+              value={formData.phone}
+              onChange={handleChange}
             />
           </div>
-          <Button className="bg-secondary hover:bg-primary">
+          <Button
+            onClick={updateProfile}
+            className="bg-secondary hover:bg-primary"
+          >
             Update Profile
           </Button>
         </form>
-        <h3 className="text-xl mt-8 mb-4 font-semibold">Change Password</h3>
-        <form action="">
-          <div className="grid gap-3">
-            <label htmlFor="current-password">Current Password</label>
-            <PasswordInput
-              value={currentPassword}
-              onChange={(e: any) => setCurrentPassword(e.target.value)}
-            />
-            <label htmlFor="new-password">New Password</label>
-
-            <PasswordInput
-              value={newPassword}
-              onChange={(e: any) => setNewPassword(e.target.value)}
-            />
-            <label htmlFor="confirm-password">Confirm Password</label>
-
-            <PasswordInput
-              value={confirmPassword}
-              onChange={(e: any) => setConfirmPassword(e.target.value)}
-            />
-          </div>
-          <div className="w-full flex">
-            <Button className="ml-auto mt-6 bg-secondary hover:bg-primary">
-              Save Changes
-            </Button>
-          </div>
-        </form>
+        <SecuritySettings />
       </div>
     </div>
   );
