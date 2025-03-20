@@ -63,6 +63,40 @@ export const updateProfileImage = async (req, res) => {
   }
 };
 
+export const updateUserDetails = async (req, res) => {
+  try {
+    const { fullname, email, phone } = req.body;
+
+    // Ensure at least one field is being updated
+    if (!fullname && !email && !phone) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No data provided to update" });
+    }
+
+    // Find and update user
+    const updatedUser = await User.findByIdAndUpdate(
+      req.userId,
+      { fullname, email, phone },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "User details updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Error updating user details:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
