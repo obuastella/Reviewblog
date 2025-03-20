@@ -8,6 +8,61 @@ import {
   sendVerificationEmail,
   sendWelcomeEmail,
 } from "../utils/emailService.js";
+import dotenv from "dotenv";
+import fs from "fs";
+import { v2 as cloudinary } from "cloudinary";
+dotenv.config();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+export const updateProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ success: false, message: "No image provided" });
+    }
+
+    // Upload to Cloudinary
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "profile_images",
+    });
+
+    // Delete local file safely
+    try {
+      fs.unlinkSync(req.file.path);
+    } catch (err) {
+      console.error("Failed to delete temp file:", err);
+    }
+
+    // Update user profile
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      { profileImage: result.secure_url },
+      { new: true }
+    );
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    return res.json({
+      success: true,
+      message: "Profile image updated successfully",
+      profileImage: user.profileImage,
+    });
+  } catch (error) {
+    console.error("Error updating profile image:", error);
+    return res.status(500).json({ success: false, message: "Server Error" });
+  }
+};
+
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {

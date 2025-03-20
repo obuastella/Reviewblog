@@ -15,6 +15,14 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    phone: {
+      type: String,
+      required: false,
+    },
+    profileImage: {
+      type: String,
+      required: false,
+    },
     lastLogin: {
       type: Date,
       default: Date.now,
